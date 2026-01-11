@@ -1,0 +1,240 @@
+region-lock:
+  mode: NONE
+  # NONE | WORLDGUARD_REGION | WORLD_AND_AREA
+
+  worldguard:
+    worlds: {}
+    # Örnek:
+    # worlds:
+    #   world:
+    #     region: "ciftci"
+
+  area:
+    worlds: {}
+    # Örnek:
+    # worlds:
+    #   world:
+    #     x1: -100
+    #     z1: -100
+    #     x2: 100
+    #     z2: 100
+
+drop:
+  enabled: true
+  only_fully_grown_wheat: true
+
+  # 0.0 - 1.0 arası (0.80 = %80)
+  chances:
+    POUCH_1: 0.80
+    POUCH_2: 0.25
+    POUCH_3: 0.07
+
+# YENİ: Buğday kırınca belli aralıklarla coin
+wheat-coin:
+  enabled: true
+  every_breaks: 20
+  coin_amount: 3
+  message: "&a+%amount% TarımCoin &7(Buğday bonusu)"
+
+opening:
+  duration_ticks: 40
+  one_at_a_time: true
+
+  protect:
+    block_commands: true
+    block_teleport: true
+    block_inventory_move: true
+    block_item_drop: true
+    block_item_pickup: true
+    block_damage: false
+
+    block_attack: true
+    block_block_break: true
+
+animation:
+  enabled: true
+  spin_degrees_per_tick: 18.0
+  lift_height: 0.9
+  forward_distance: 0.9
+
+  final:
+    particle: EXPLOSION_LARGE
+    particle_count: 1
+    sound: ENTITY_GENERIC_EXPLODE
+    sound_volume: 1.0
+    sound_pitch: 1.0
+
+cooldowns:
+  enabled: true
+  values_seconds:
+    POUCH_1: 10
+    POUCH_2: 30
+    POUCH_3: 60
+
+rewards:
+  inventory_full_behavior: DROP
+  # DROP | CANCEL
+  messages:
+    received_item: "&aÖdül: &e%item%"
+    received_coin: "&aÖdül: &e%amount% &aTarımCoin"
+    received_command: "&aÖdül verildi."
+    inventory_full: "&cEnvanterin dolu! Ödül yere düşürüldü."
+
+  pouches:
+    POUCH_1:
+      - type: COIN
+        amount: 5
+        weight: 40
+      - type: ITEM
+        weight: 45
+        item:
+          material: WHEAT
+          amount: 64
+          name: "&aÇiftçi Paketi"
+          lore:
+            - "&7Buğday ödülü"
+      - type: COMMAND
+        weight: 15
+        commands:
+          - "give %player% bread 32"
+    POUCH_2:
+      - type: COIN
+        amount: 15
+        weight: 40
+      - type: ITEM
+        weight: 40
+        item:
+          material: GOLDEN_HOE
+          amount: 1
+          name: "&eNadir Çapa"
+          lore:
+            - "&7Nadir ödül"
+      - type: COMMAND
+        weight: 20
+        commands:
+          - "say %player% POUCH_2 ödülü kazandı!"
+    POUCH_3:
+      - type: COIN
+        amount: 50
+        weight: 45
+      - type: ITEM
+        weight: 35
+        item:
+          material: DIAMOND_HOE
+          amount: 1
+          name: "&cEfsanevi Çapa"
+          lore:
+            - "&7Efsanevi ödül"
+      - type: COMMAND
+        weight: 20
+        commands:
+          - "broadcast &c%player% &7Efsanevi kese ödülü kazandı!"
+
+coinmarket:
+  title: "&aTarımCoin Market"
+  size: 27
+
+
+  filler:
+    enabled: true
+    material: BLACK_STAINED_GLASS_PANE
+    name: " "
+    lore: []
+
+  balance-info:
+    enabled: true
+    slot: 22
+    material: SUNFLOWER
+    name: "&eTarımCoin Bakiyesi"
+    lore:
+      - "&7Mevcut: &e%balance%"
+      - ""
+      - "&8Market alışverişi için kullanılır."
+
+  items:
+    wheat_pack:
+      slot: 11
+      price: 10
+      item:
+        material: WHEAT
+        amount: 64
+        name: "&a64 Buğday"
+        lore:
+          - "&7Fiyat: &e10 TarımCoin"
+    bread_pack:
+      slot: 13
+      price: 12
+      item:
+        material: BREAD
+        amount: 32
+        name: "&e32 Ekmek"
+        lore:
+          - "&7Fiyat: &e12 TarımCoin"
+
+messages:
+  pouch:
+    reload: "&a✔ Config ve coins.yml yeniden yüklendi."
+
+  coin:
+    balance: "&aTarımCoin: &e%amount%"
+    not_enough: "&cTarımCoin yetersiz. &7Bakiye: &e%balance%&7, Fiyat: &e%price%"
+    purchased: "&aSatın alındı: &f%name% &7(-%price% TarımCoin) &8| &aYeni bakiye: &e%balance%"
+
+
+messages:
+  prefix: "&a[FarmerPouch]&r "
+  no-permission: "&cYetkin yok."
+  only-player: "&cBu komut sadece oyuncu içindir."
+
+  usage:
+    main:
+      - "&8&m--------------------------------"
+      - "&aFarmerPouch &7Komutları"
+      - "&e/pouch lockmode <NONE|WORLDGUARD_REGION|WORLD_AND_AREA>"
+      - "&e/pouch region set <region> &7- &f(WorldGuard varsa)"
+      - "&e/pouch region info"
+      - "&e/pouch area set <x1> <z1> <x2> <z2>"
+      - "&e/pouch area info"
+      - "&e/pouch give <1|2|3> [adet]"
+      - "&e/coinmarket &7- &fTarımCoin market"
+      - "&e/tarimcoin &7- &fBakiye"
+      - "&8&m--------------------------------"
+
+  worldguard:
+    missing: "&cWorldGuard yüklü değil. WORLDGUARD_REGION modu veya region komutları için WorldGuard gerekli."
+    region-not-found: "&cBu isimde bir WorldGuard region bulunamadı."
+
+  lock:
+    set: "&a✔ Bölge modu ayarlandı: &e%mode%"
+
+  region:
+    set-success: "&a✔ Bu world için WG region ayarlandı: &e%region%"
+    not-set: "&cBu world için WG region ayarlı değil."
+    info: "&aWorld: &e%world% &7| &aWG Region: &e%region%"
+
+  area:
+    set-success: "&a✔ Bu world için alan ayarlandı: &e(%x1%,%z1%) -> (%x2%,%z2%)"
+    not-set: "&cBu world için alan ayarlı değil."
+    info: "&aWorld: &e%world% &7| &aArea: &e(%x1%,%z1%) -> (%x2%,%z2%)"
+
+  outside: "&cBu sistemi burada kullanamazsın (kısıtlama aktif)."
+
+  opening:
+    already_opening: "&cZaten bir kese açıyorsun."
+    started: "&aKese açılıyor..."
+    finished: "&aKese açıldı."
+    cancelled: "&cKese açma iptal edildi."
+
+  cooldown:
+    wait: "&cBeklemelisin! Kalan süre: &e%seconds%s"
+
+  protection:
+    blocked: "&cKese açarken bu işlemi yapamazsın."
+
+  pouch:
+    given: "&a✔ %amount%x %rarity% verildi."
+
+  coin:
+    balance: "&aTarımCoin: &e%amount%"
+    not_enough: "&cTarımCoin yetersiz. &7Bakiye: &e%balance%&7, Fiyat: &e%price%"
+    purchased: "&aSatın alındı: &f%name% &7(-%price% TarımCoin) &8| &aYeni bakiye: &e%balance%"
